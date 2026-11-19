@@ -4,15 +4,13 @@
 
 - Simulation of the valley network under JICA 2011 demand; seven interventions on 15 paired seeds;
   demand projection to 2030; paper with every number traced to a public notebook.
-- Five rounds of calibration against junction counts; a lane-count bug in the network import found
-  and fixed.
+- Six rounds of calibration against junction counts (best 2 of 6); a lane-count bug in the network
+  import found and fixed.
+- Future-demand test: the plan at 2026 and 2030 demand (helps, does not solve).
+- Training run 1: vehicle detector (motorcycle, car, bus, truck) and plate detector.
 - Camera pipeline: detection, tracking, stop-line counting, signal reading, red-light rule, evidence
   frames; self-checks.
 - Dataset survey and inspection for vehicles, plates and plate characters.
-
-## In progress
-
-- Training run 1: vehicle detector (motorcycle, car, bus, truck) and plate detector.
 
 ## Next
 

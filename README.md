@@ -37,7 +37,9 @@ junction cameras ─► vehicle counts, PCU flow, congestion ──► calibrate
 ## Headline results so far
 
 - **Simulation** (15 paired seeds, 95% intervals): adaptive signals cut mean time in system by
-  23.2% +/- 2.0%; with congestion pricing, 28.9% +/- 1.7%; staggered work hours, 26.7% +/- 1.3%.
+  23.2% +/- 2.0%; with congestion pricing, 28.9% +/- 1.7%; staggered work hours, 26.7% +/- 1.3%. At projected 2026 and 2030 demand the combined plan cuts time
+  in system by 51% and 37% but does not restore 2011 conditions.
   Details and caveats in [docs/simulation.md](docs/simulation.md).
 - **Camera system**: counting and the red-light rule are implemented and self-checked; detectors
-  fine-tuned for Kathmandu traffic are training. No test on real Kathmandu junction footage yet.
+  fine-tuned for South Asian traffic are trained (vehicles mAP50 0.67-0.73 on dense street scenes;
+  plates 0.89-0.99). No test on real Kathmandu junction footage yet.

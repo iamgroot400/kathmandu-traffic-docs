@@ -30,16 +30,35 @@ repository's `paper/claims.md` traces each one to its notebook, file and computa
 Demand growth: trips completed within 6 hours fall from 98.1% at 2011 demand to 33.6% at 2026
 demand and 24.1% at 2030 demand.
 
+## Does the plan hold at future demand? (6 paired seeds per arm)
+
+Test fixed before the runs: an arm "solves" a year if, within 6 hours, it completes at least as many
+trips as 2011 does with no intervention (98.3%) and its mean time in system is no worse (3,068 s).
+
+| Arm | 2026: completed | 2026: time vs doing nothing | 2030: completed | 2030: time vs doing nothing |
+|---|---|---|---|---|
+| Do nothing | 33.5% | – | 23.2% | – |
+| Adaptive signals | 36.2% | -4.8% +/- 2.8% | 25.8% | -4.0% +/- 1.8% |
+| Signals + pricing | 38.5% | -7.5% +/- 2.8% | 25.9% | -4.1% +/- 1.7% |
+| Staggered departures | 57.4% | -34.6% +/- 2.1% | 37.4% | -27.7% +/- 1.5% |
+| All three | 78.9% | -51.0% +/- 7.3% | 45.5% | -37.2% +/- 2.7% |
+
+**No arm solves either year.** The combined plan halves time in system at 2026 demand, but its effect
+shrinks as demand grows. In this model, signal timing and demand management alone cannot absorb the
+projected growth; fewer car trips (public transport) or more capacity are also needed. Caveats: the
+growth rate (4.52% a year) is assumed, the toll schedule is the 2011 one, and the model is the
+published one, not a calibrated one.
+
 ## Validation and its limits
 
 - Speeds: Ring Road 18.9 +/- 1.2 km/h (survey 24.0), inner roads 13.8 +/- 0.3 km/h (survey 15.3).
 - Junction volumes: the model carries 64% of the counted volume at 9 JICA junctions, correlation 0.31.
   The model gets total traffic and speeds roughly right but not where traffic goes.
 
-## Calibrating to the junction counts (ongoing)
+## Calibrating to the junction counts (stopped at round 5)
 
 Goal: GEH < 5 at 6 tuning junctions, with 3 junctions held out (drawn at random before any
-tuning) to test the final setting once. Five rounds so far, each a set of public Kaggle notebooks:
+tuning) to test the final setting once. Six rounds, each a set of public Kaggle notebooks:
 
 | Round | Idea | Best result (of 6) |
 |---|---|---|
@@ -48,8 +67,10 @@ tuning) to test the final setting once. Five rounds so far, each a set of public
 | 3 | capacity x demand | 2 |
 | 4 | measure junctions as 100 m clusters; load trips mid-block; fit OD flows to counts | 1; OD fitting diverged |
 | 5 | fix a lane-count bug (two-way OpenStreetMap lanes read per direction); roadside friction | **2, mean GEH 20.0, speeds 22.3 / 15.1 km/h** |
+| 6 | lane widths for untagged roads; pedestrian-street friction; OD fitting with a fixed total | 0; too much capacity removed, network far slower than the survey |
 
 Round 5 found that the OpenStreetMap importer doubled the width of every tagged two-way road, which
 explained why the Ring Road junctions were always too high. The remaining gap (Kalimati too high,
-Baneshwor too low) is where camera counts by approach would help most. Full record:
-`docs/count-calibration.md` and `lab/decisions.md` (D6-D10) in the simulation repository.
+Baneshwor too low) is where camera counts by approach would help most; more parameter search is
+unlikely to close it. The held-out junctions stay unrevealed because no setting reached 6 of 6. Full
+record: `docs/count-calibration.md` and `lab/decisions.md` (D6-D12) in the simulation repository.
