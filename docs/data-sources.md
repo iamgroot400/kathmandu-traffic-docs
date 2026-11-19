@@ -32,4 +32,8 @@ dataset is redistributed in any of the three repositories.
 
 - Video of Kathmandu junctions from a raised, fixed camera: needed to test the camera system and
   to collect counts by approach for the simulation.
-- Current (2026) junction counts: the newest public counts are from 2011-12.
+- Current (2026) junction counts. The newest public valley-wide counts are from 2011-12. One recent
+  single-junction count was found: Thapathali, June 2022 (IOE Thapathali thesis T09/075), about
+  5,600 PCU in the weekday AM peak with Kathmandu Valley Integrated Transport Strategic Plan (KVITSP 2022)
+  factors (motorcycle 0.25 PCU). Its counting definitions differ from JICA's, so it was not used to
+  check or calibrate the model.
