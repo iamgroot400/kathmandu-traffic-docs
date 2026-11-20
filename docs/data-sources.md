@@ -22,8 +22,9 @@
 | `ishworsubedii/vehicle-number-plate-datasetnepal` | 8,078 | plate detection (Kathmandu valley) |
 | `kshitizgajurel042/nepali-bike-and-car-images-with-annotations` | 1,052 | plate detection |
 | `deepakat002/indian-vehicle-number-plate-yolo-annotation` | 160 | plate detection (distant plates) |
-| `inspiring-lab/nepali-number-plate-characters-dataset` | 26,537 | plate reading (Devanagari), next step |
-| `theciceerguy/embossed-number-plate-detection-nepal-dataset`, `utsavbaral007/nepal-embossed-number-plate-dataset` | 10,158 / 3,592 | plate reading (embossed), next step |
+| `inspiring-lab/nepali-vehicles-number-plate-dataset` | 2,503 | plate reader: finding characters on a plate |
+| `inspiring-lab/nepali-number-plate-characters-dataset` | 26,537 | plate reader: naming Devanagari characters |
+| `theciceerguy/embossed-number-plate-detection-nepal-dataset`, `utsavbaral007/nepal-embossed-number-plate-dataset` | 10,158 / 3,592 | plate reader: naming embossed characters (first set only; the second is a copy) |
 
 Full inspection results and class mappings: `docs/datasets.md` in the vision repository. No
 dataset is redistributed in any of the three repositories.

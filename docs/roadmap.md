@@ -11,12 +11,13 @@
 - Camera pipeline: detection, tracking, stop-line counting, signal reading, red-light rule, evidence
   frames; self-checks.
 - Dataset survey and inspection for vehicles, plates and plate characters.
+- Plate reader run 1: character finder and namer, reading order, plate-format check (self-checked).
 
 ## Next
 
 1. **Kathmandu junction footage** (rooftop or footbridge, fixed, signal and stop line in view), to
    test the camera system and build a hand-checked Kathmandu test set.
-2. Plate reader for Devanagari and embossed plates.
+2. Measure whole-plate reading on hand-labelled Kathmandu plates; confirm the embossed plate layout.
 3. Restricted-vehicle rule: trucks on inner roads during restricted hours.
 4. Camera counts by approach at the junctions where the simulation is furthest off (Kalimati,
    New and Old Baneshwor), to finish calibration; then the held-out junction test.
