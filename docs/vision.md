@@ -13,6 +13,9 @@ Repository: `kathmandu-traffic-vision`.
 6. Plate detector on flagged vehicles, then the plate reader: find each character, name it, put the
    characters in reading order (one or two rows), and check the result against the plate layout.
    Implausible or unsure readings are marked for a person to review.
+7. Evidence per violation: the frame, a close-up of the vehicle with its rider or driver, the plate
+   close-up and an evidence card combining them, plus `report.html` listing every flag for review.
+   These are personal data: they stay in the local `out/` folder, never in a repository.
 
 ## Models and training
 
@@ -20,7 +23,7 @@ Repository: `kathmandu-traffic-vision`.
 |---|---|---|---|
 | Vehicles (4 classes) | YOLO11s, COCO-pretrained | Indian Driving Dataset sample, Indian traffic video frames, Nepali bike-and-car photos | run 1 done: mAP50 0.67-0.73 on dense street scenes |
 | Plates (1 class) | YOLO11s, COCO-pretrained | Kathmandu-valley plate images, Nepali photos, distant plates from traffic video | run 1 done: mAP50 0.89-0.99, mAP50-95 0.44-0.93 |
-| Plate reader: characters | YOLO11s, COCO-pretrained | 2,503 cropped Nepali plates with character boxes | run 1 done: 98.3% of characters found (mAP50 0.993) |
+| Plate reader: characters | YOLO11s, COCO-pretrained | 2,503 cropped Nepali plates with character boxes, plus 115 real Kathmandu plates (boxes matched to AI readings, bolts as background) | run 4 done: mAP50 0.993 on web plates; recall on real plates 0.917 to 0.944 |
 | Plate reader: naming | YOLO11s-cls | Devanagari character crops; embossed digit and letter crops | run 2 done: 98.5-99.7% top-1 on held-out crops of known sources; run 1 scored 64-94% on unseen sources |
 
 ### Run 1 results (per validation source)
@@ -38,10 +41,10 @@ is what a junction camera sees.
 
 Plate reader: the confusions are look-alikes (६ and ३, बा and ना). These scores are upper bounds (random
 splits of crops from the same plates), and errors multiply over a plate: at 99% per character an
-8-character plate is fully right about 92% of the time. Whole-plate accuracy is not measured, because
-no public dataset has full plate text. The best test so far: the run-1 namer on two character
-sets it never saw scored 93.9% and 63.6%, so expect well below 99% on new plates. Run 2 adds those two
-sets to training (three Devanagari collections instead of one).
+8-character plate is fully right about 92% of the time. Whole plates, measured on 112 real Kathmandu
+test photos (labels read by AI, not hand-checked, hardest plates left out): 43.8% read exactly, 75.9%
+with the number part right. About half the readings pass the format and zone-code check, and those are
+right 88.7% of the time; the rest go to a person.
 
 Each run's settings, notebook and per-source results: `docs/training.md` in the vision repository.
 Datasets, licences and class mappings: `docs/datasets.md` there.
