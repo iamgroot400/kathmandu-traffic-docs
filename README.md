@@ -16,6 +16,38 @@ junction cameras -> vehicle counts, PCU flow ---------> calibrate / validate the
                                     deploy the best plan -> cameras measure the effect
 ```
 
+## How we got here
+
+1. **The question.** Can Kathmandu's peak-hour congestion be cut without building roads? Most of the
+   delay forms at junctions, and most signals run fixed timings or are handled by hand.
+2. **Pick levers a city can actually use.** A metro or new roads cannot be built, or even piloted,
+   within this challenge. So we chose changes a city can make with what it has: signal timing, road
+   pricing, and later tidal lanes, parking enforcement, staggered work hours and moving offices out of
+   the core.
+3. **Test before touching the street.** Retiming real signals is slow, and a bad plan makes traffic
+   worse for everyone. A simulation lets us compare every option with numbers first. We chose a
+   mesoscopic simulator (UXsim), fast enough to run the whole valley 150 times, so each result is
+   measured over 15 random seeds with confidence intervals instead of one run that could be luck.
+4. **The first model was not good enough, so we rebuilt it.** Version 1 used made-up demand (a
+   gravity model) on main roads only. It carried 46% of the real counted traffic, matched 1 of 9
+   junctions and got the pattern between junctions wrong. We replaced the demand with the JICA 2011
+   household travel survey, the most recent full survey of the valley, and widened the road network
+   to 472 junctions and 1,242 links.
+5. **Check the ideas against the real world.** Pricing works in the model, but we found no
+   well-documented case of congestion pricing working in a low or middle-income city (Jakarta's plan
+   never launched, and its car-sharing rule was beaten by people paid to sit in cars). So signals and
+   staggered hours are what we recommend first; pricing stays in the results as research.
+6. **Check our own claims.** We had claimed signals and pricing work better together than apart.
+   A proper paired test did not support it, so we withdrew it: they simply add up. Calibrating against
+   junction counts also uncovered a bug where the map importer had doubled the width of every two-way
+   road; we fixed it.
+7. **Test against the future.** Traffic has grown since 2011, so we reran the plan at projected 2026
+   and 2030 demand. It still helps a lot, but on its own it cannot absorb that much growth.
+8. **The model needs today's traffic, so we built the cameras.** The survey is from 2011 and the model
+   matches junction volumes only partly. A camera at a junction gives current counts to calibrate the
+   model and, after a change, measures whether it worked. The same camera can also catch red-light
+   running and read the plate, with evidence for a person to review.
+
 ## Start here
 
 | | Link |
