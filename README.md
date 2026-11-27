@@ -42,4 +42,6 @@ junction cameras ─► vehicle counts, PCU flow, congestion ──► calibrate
   Details and caveats in [docs/simulation.md](docs/simulation.md).
 - **Camera system**: counting and the red-light rule are implemented and self-checked; detectors
   fine-tuned for South Asian traffic are trained (vehicles mAP50 0.67-0.73 on dense street scenes;
-  plates 0.89-0.99; plate reader 98% of characters found, 99% named on known sources but 64-94% on unseen ones; whole plates not yet measured). No test on real Kathmandu junction footage yet.
+  plates 0.89-0.99; whole-plate reading 43.8% exact, 88.7% exact when it passes its own check, on 112
+  real test plates with AI-read labels, so provisional). Each violation saves an evidence card and a
+  report page for a person to review. No test on real Kathmandu junction footage yet.
