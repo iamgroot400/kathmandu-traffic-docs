@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo.svg" alt="Kathmandu Traffic logo" width="140"></p>
+
 # Kathmandu traffic: simulation-tested signal reform, measured by junction cameras
 
 Kathmandu's peak-hour congestion is mostly a junction problem, and changing signals on the street is
