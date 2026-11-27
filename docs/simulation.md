@@ -1,6 +1,6 @@
 # Simulation
 
-Repository: `kathmandu-traffic`. Every simulated number comes from public Kaggle notebooks; the
+Repository: `kathmandu-traffic-simulation`. Every simulated number comes from public Kaggle notebooks; the
 repository's `paper/claims.md` traces each one to its notebook, file and computation.
 
 ## Model
