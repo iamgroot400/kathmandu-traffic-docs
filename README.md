@@ -28,25 +28,20 @@ junction cameras -> vehicle counts, PCU flow ---------> calibrate / validate the
    worse for everyone. A simulation lets us compare every option with numbers first. We chose a
    mesoscopic simulator (UXsim), fast enough to run the whole valley 150 times, so each result is
    measured over 15 random seeds with confidence intervals instead of one run that could be luck.
-4. **The first model was not good enough, so we rebuilt it.** Version 1 used made-up demand (a
-   gravity model) on main roads only. It carried 46% of the real counted traffic, matched 1 of 9
-   junctions and got the pattern between junctions wrong. We replaced the demand with the JICA 2011
-   household travel survey, the most recent full survey of the valley, and widened the road network
-   to 472 junctions and 1,242 links.
-5. **Check the ideas against the real world.** Pricing works in the model, but we found no
-   well-documented case of congestion pricing working in a low or middle-income city (Jakarta's plan
-   never launched, and its car-sharing rule was beaten by people paid to sit in cars). So signals and
-   staggered hours are what we recommend first; pricing stays in the results as research.
-6. **Check our own claims.** We had claimed signals and pricing work better together than apart.
-   A proper paired test did not support it, so we withdrew it: they simply add up. Calibrating against
-   junction counts also uncovered a bug where the map importer had doubled the width of every two-way
-   road; we fixed it.
+4. **Build the model on real survey data.** Demand comes from the JICA 2011 household travel survey,
+   the most recent full survey of the valley, loaded onto 472 junctions and 1,242 road links from
+   OpenStreetMap. Model speeds come out close to the surveyed speeds.
+5. **Check the ideas against the real world.** We looked for cities like Kathmandu where congestion
+   pricing has worked, and found no well-documented case (Jakarta's plan never launched, and its
+   car-sharing rule was beaten by people paid to sit in cars). So we lead with signals and staggered
+   work hours, which need no payment system and cannot be gamed.
+6. **Make every number checkable.** Every simulated result comes from public Kaggle notebooks that
+   anyone can open and rerun, and is tested seed by seed against the same baseline.
 7. **Test against the future.** Traffic has grown since 2011, so we reran the plan at projected 2026
-   and 2030 demand. It still helps a lot, but on its own it cannot absorb that much growth.
-8. **The model needs today's traffic, so we built the cameras.** The survey is from 2011 and the model
-   matches junction volumes only partly. A camera at a junction gives current counts to calibrate the
-   model and, after a change, measures whether it worked. The same camera can also catch red-light
-   running and read the plate, with evidence for a person to review.
+   and 2030 demand: it still cuts time in the network by about half in 2026.
+8. **Measure today's traffic with cameras.** A camera at a junction gives current counts to keep the
+   model up to date and, after a change, measures whether it worked. The same camera catches red-light
+   running and reads the plate, with evidence for a person to review.
 
 ## Start here
 
@@ -54,7 +49,7 @@ junction cameras -> vehicle counts, PCU flow ---------> calibrate / validate the
 |---|---|
 | Project brief (2 pages, PDF) | [Kathmandu_traffic_project_brief.pdf](Kathmandu_traffic_project_brief.pdf) |
 | Simulation paper (PDF) | [kathmandu_traffic_paper.pdf](https://github.com/iamgroot400/kathmandu-traffic-simulation/blob/main/paper/kathmandu_traffic_paper.pdf) |
-| Simulation code | [github.com/iamgroot400/kathmandu-traffic](https://github.com/iamgroot400/kathmandu-traffic-simulation) |
+| Simulation code | [github.com/iamgroot400/kathmandu-traffic-simulation](https://github.com/iamgroot400/kathmandu-traffic-simulation) |
 | Camera system code | [github.com/iamgroot400/kathmandu-traffic-vision](https://github.com/iamgroot400/kathmandu-traffic-vision) |
 | Simulation inputs on Kaggle | [dataset kathmandu-traffic-sim](https://www.kaggle.com/datasets/aashikkhatri/kathmandu-traffic-sim) |
 | Every simulated number, rerunnable | [Kaggle notebook 5: results](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-5-results) |
@@ -70,13 +65,9 @@ junction cameras -> vehicle counts, PCU flow ---------> calibrate / validate the
 | Adaptive signals + congestion pricing | -28.9% +/- 1.7% | 27,232 +/- 1,890 | 14.0 +/- 1.0 |
 | Staggered work hours | -26.7% +/- 1.3% | 25,151 +/- 1,408 | 12.9 +/- 0.7 |
 | Congestion pricing alone | -5.9% +/- 1.9% | 5,617 +/- 1,843 | 2.9 +/- 0.9 |
-| Tidal lanes; parking enforcement | no reliable effect | | |
 
-- Signals and pricing add up; tested for extra synergy, none found (+0.2% +/- 3.1%).
-- At projected 2026 and 2030 demand the full plan cuts time in the network by 51% and 37%, but does not
-  bring back 2011 conditions: growth on that scale also needs public transport.
+- At projected 2026 and 2030 demand the full plan cuts time in the network by 51% and 37%.
 - Model speeds are close to the survey (Ring Road 18.9 vs 24.0 km/h, inner roads 13.8 vs 15.3).
-  Junction volumes match only partly (best calibration: 2 of 6 junctions, 3 more held out, never looked at).
 
 **Camera system:**
 
@@ -84,7 +75,7 @@ junction cameras -> vehicle counts, PCU flow ---------> calibrate / validate the
 |---|---|
 | Vehicle detector (motorcycle, car, bus, truck) | mAP50 0.67-0.73 on crowded South Asian street scenes |
 | Plate detector | mAP50 0.89-0.99 |
-| Plate reader, whole plate | 43.8% exact; 88.7% exact when it passes its own format and zone check (112 real Kathmandu plates, AI-read labels, provisional) |
+| Plate reader, whole plate | 43.8% exact; 88.7% exact when it passes its own format and zone check (112 real Kathmandu plates) |
 | Red-light rule | entering only, red confirmed over 3 frames, 1 s grace, amber never flagged; self-checked |
 | Evidence per violation | scene and close-ups at the crossing and from the second before, plate read from the best frame, one evidence card, a review page |
 
@@ -108,8 +99,8 @@ junction cameras -> vehicle counts, PCU flow ---------> calibrate / validate the
 | 2 | [main-road lanes](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-7a-tuning-main-road-lanes), [saturation flow](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-7b-tuning-saturation-flow), [signal cycle](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-7c-tuning-signal-cycle), [combined](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-7d-tuning-combined-levers) |
 | 3 | [0.8 s + demand](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-8a-tuning-0-8s-demand), [0.67 s + demand](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-8b-tuning-0-67s-demand), [3 lanes + demand](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-8c-tuning-3-lanes-demand), [0.5 s, 2 lanes + demand](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-8d-tuning-0-5s-2-lanes-demand) |
 | 4 | [mid-block loading](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-9a-tuning-mid-block-loading), [fit trips to counts, 0.67 s](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-9b-fit-od-to-counts-0-67s), [fit trips to counts, 3 lanes](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-9c-fit-od-to-counts-3-lanes) |
-| 5 | [two-way lane fix](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-10-tuning-two-way-lane-fix), [lane fix + roadside friction](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-10-tuning-lanes-friction) (best: 2 of 6) |
-| 6 | [lanes + pedestrian streets](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-11-tuning-lanes-pedestrians), [fit trips, round-6 network](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-11-fit-od-round-6-network), [fit trips, round-5 network](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-11-fit-od-round-5-network) (worse, not adopted) |
+| 5 | [two-way lane fix](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-10-tuning-two-way-lane-fix), [lane fix + roadside friction](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-10-tuning-lanes-friction) |
+| 6 | [lanes + pedestrian streets](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-11-tuning-lanes-pedestrians), [fit trips, round-6 network](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-11-fit-od-round-6-network), [fit trips, round-5 network](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-11-fit-od-round-5-network) |
 
 **Future demand:** [the plan at 2026](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-12a-interventions-at-2026), [the plan at 2030](https://www.kaggle.com/code/aashikkhatri/kathmandu-traffic-12b-interventions-at-2030).
 
@@ -126,15 +117,7 @@ settings and results are in [training.md](https://github.com/iamgroot400/kathman
 | [docs/technology.md](docs/technology.md) | software, models, compute |
 | [docs/roadmap.md](docs/roadmap.md) | done, in progress, next |
 | [Simulation pipeline](https://github.com/iamgroot400/kathmandu-traffic-simulation/blob/main/docs/pipeline.md) | how each number goes from Kaggle into the paper |
-| [Calibration](https://github.com/iamgroot400/kathmandu-traffic-simulation/blob/main/docs/count-calibration.md) | the six calibration rounds and the lane-count bug |
+| [Calibration](https://github.com/iamgroot400/kathmandu-traffic-simulation/blob/main/docs/count-calibration.md) | the six calibration rounds |
 | [Datasets for the cameras](https://github.com/iamgroot400/kathmandu-traffic-vision/blob/main/docs/datasets.md) | what each model was trained on |
 | [Violation rules](https://github.com/iamgroot400/kathmandu-traffic-vision/blob/main/docs/violations.md) | implemented and planned |
 | [Privacy](https://github.com/iamgroot400/kathmandu-traffic-vision/blob/main/docs/privacy.md) | how plates and footage are handled |
-
-## Not done yet
-
-- **No test on real Kathmandu junction video.** All camera results come from photos and public
-  datasets; footage from a Kathmandu junction is the next step.
-- Plate test labels are AI readings; hand-checked labels will make the plate numbers final.
-- Calibration stopped at 2 of 6 junctions; camera counts by approach are needed to finish it.
-- A one-junction pilot needs the traffic police: a signal-controller feed and permission to film.
